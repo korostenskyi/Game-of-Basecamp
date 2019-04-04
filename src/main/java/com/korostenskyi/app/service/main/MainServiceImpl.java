@@ -91,7 +91,7 @@ public class MainServiceImpl implements MainService {
             character = taskService.getCharacterById(id).get();
             characterRepository.save(character);
 
-            logger.info("Character saves");
+            logger.info("Character saved");
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
