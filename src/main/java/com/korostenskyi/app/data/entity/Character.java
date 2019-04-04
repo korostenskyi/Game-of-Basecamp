@@ -1,9 +1,12 @@
 package com.korostenskyi.app.data.entity;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Character {
 
+    private Long id;
     private String url;
     private String name;
     private String gender;
@@ -43,6 +46,17 @@ public class Character {
         this.playedBy = playedBy;
     }
 
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Column(name = "url")
     public String getUrl() {
         return url;
     }
@@ -51,6 +65,7 @@ public class Character {
         this.url = url;
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -59,6 +74,7 @@ public class Character {
         this.name = name;
     }
 
+    @Column(name = "gender")
     public String getGender() {
         return gender;
     }
@@ -67,6 +83,7 @@ public class Character {
         this.gender = gender;
     }
 
+    @Column(name = "culture")
     public String getCulture() {
         return culture;
     }
@@ -75,6 +92,7 @@ public class Character {
         this.culture = culture;
     }
 
+    @Column(name = "born")
     public String getBorn() {
         return born;
     }
@@ -83,6 +101,7 @@ public class Character {
         this.born = born;
     }
 
+    @Column(name = "died")
     public String getDied() {
         return died;
     }
@@ -91,6 +110,8 @@ public class Character {
         this.died = died;
     }
 
+    @Column(name = "titles")
+    @ElementCollection(targetClass = String.class)
     public List<String> getTitles() {
         return titles;
     }
@@ -99,6 +120,8 @@ public class Character {
         this.titles = titles;
     }
 
+    @Column(name = "aliases")
+    @ElementCollection(targetClass = String.class)
     public List<String> getAliases() {
         return aliases;
     }
@@ -107,6 +130,7 @@ public class Character {
         this.aliases = aliases;
     }
 
+    @Column(name = "father")
     public String getFather() {
         return father;
     }
@@ -115,6 +139,7 @@ public class Character {
         this.father = father;
     }
 
+    @Column(name = "mother")
     public String getMother() {
         return mother;
     }
@@ -123,6 +148,7 @@ public class Character {
         this.mother = mother;
     }
 
+    @Column(name = "spouse")
     public String getSpouse() {
         return spouse;
     }
@@ -131,6 +157,8 @@ public class Character {
         this.spouse = spouse;
     }
 
+    @Column(name = "allegiances")
+    @ElementCollection(targetClass = String.class)
     public List<String> getAllegiances() {
         return allegiances;
     }
@@ -139,6 +167,8 @@ public class Character {
         this.allegiances = allegiances;
     }
 
+    @Column(name = "books")
+    @ElementCollection(targetClass = String.class)
     public List<String> getBooks() {
         return books;
     }
@@ -147,6 +177,8 @@ public class Character {
         this.books = books;
     }
 
+    @Column(name = "pov_books")
+    @ElementCollection(targetClass = String.class)
     public List<String> getPovBooks() {
         return povBooks;
     }
@@ -155,6 +187,8 @@ public class Character {
         this.povBooks = povBooks;
     }
 
+    @Column(name = "tv_series")
+    @ElementCollection(targetClass = String.class)
     public List<String> getTvSeries() {
         return tvSeries;
     }
@@ -163,6 +197,8 @@ public class Character {
         this.tvSeries = tvSeries;
     }
 
+    @Column(name = "played_by")
+    @ElementCollection(targetClass = String.class)
     public List<String> getPlayedBy() {
         return playedBy;
     }

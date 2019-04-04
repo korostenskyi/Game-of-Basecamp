@@ -1,9 +1,12 @@
 package com.korostenskyi.app.data.entity;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class House {
 
+    private Long id;
     private String url;
     private String name;
     private String region;
@@ -41,6 +44,17 @@ public class House {
     public House() {
     }
 
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Column(name = "url")
     public String getUrl() {
         return url;
     }
@@ -49,6 +63,7 @@ public class House {
         this.url = url;
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -57,6 +72,7 @@ public class House {
         this.name = name;
     }
 
+    @Column(name = "region")
     public String getRegion() {
         return region;
     }
@@ -65,6 +81,7 @@ public class House {
         this.region = region;
     }
 
+    @Column(name = "coat_of_arms")
     public String getCoatOfArms() {
         return coatOfArms;
     }
@@ -73,6 +90,7 @@ public class House {
         this.coatOfArms = coatOfArms;
     }
 
+    @Column(name = "words")
     public String getWords() {
         return words;
     }
@@ -81,6 +99,8 @@ public class House {
         this.words = words;
     }
 
+    @Column(name = "titles")
+    @ElementCollection(targetClass = String.class)
     public List<String> getTitles() {
         return titles;
     }
@@ -89,6 +109,8 @@ public class House {
         this.titles = titles;
     }
 
+    @Column(name = "seats")
+    @ElementCollection(targetClass = String.class)
     public List<String> getSeats() {
         return seats;
     }
@@ -97,6 +119,7 @@ public class House {
         this.seats = seats;
     }
 
+    @Column(name = "current_lord")
     public String getCurrentLord() {
         return currentLord;
     }
@@ -105,6 +128,7 @@ public class House {
         this.currentLord = currentLord;
     }
 
+    @Column(name = "heir")
     public String getHeir() {
         return heir;
     }
@@ -113,6 +137,7 @@ public class House {
         this.heir = heir;
     }
 
+    @Column(name = "overlord")
     public String getOverlord() {
         return overlord;
     }
@@ -121,6 +146,7 @@ public class House {
         this.overlord = overlord;
     }
 
+    @Column(name = "founded")
     public String getFounded() {
         return founded;
     }
@@ -129,6 +155,7 @@ public class House {
         this.founded = founded;
     }
 
+    @Column(name = "died_out")
     public String getDiedOut() {
         return diedOut;
     }
@@ -137,6 +164,8 @@ public class House {
         this.diedOut = diedOut;
     }
 
+    @Column(name = "ancestral_weapons")
+    @ElementCollection(targetClass = String.class)
     public List<String> getAncestralWeapons() {
         return ancestralWeapons;
     }
@@ -145,6 +174,8 @@ public class House {
         this.ancestralWeapons = ancestralWeapons;
     }
 
+    @Column(name = "cadet_branches")
+    @ElementCollection(targetClass = String.class)
     public List<String> getCadetBranches() {
         return cadetBranches;
     }
@@ -153,6 +184,8 @@ public class House {
         this.cadetBranches = cadetBranches;
     }
 
+    @Column(name = "sworn_members")
+    @ElementCollection(targetClass = String.class)
     public List<String> getSwornMembers() {
         return swornMembers;
     }

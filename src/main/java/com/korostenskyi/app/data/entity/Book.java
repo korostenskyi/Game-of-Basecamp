@@ -1,10 +1,13 @@
 package com.korostenskyi.app.data.entity;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Book {
 
+    private Long id;
     private String url;
     private String name;
     private String isbn;
@@ -34,6 +37,17 @@ public class Book {
         this.povCharecters = povCharecters;
     }
 
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Column(name = "url")
     public String getUrl() {
         return url;
     }
@@ -42,6 +56,7 @@ public class Book {
         this.url = url;
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -50,6 +65,7 @@ public class Book {
         this.name = name;
     }
 
+    @Column(name = "isbn")
     public String getIsbn() {
         return isbn;
     }
@@ -58,6 +74,8 @@ public class Book {
         this.isbn = isbn;
     }
 
+    @Column(name = "authors")
+    @ElementCollection(targetClass = String.class)
     public List<String> getAuthors() {
         return authors;
     }
@@ -66,6 +84,7 @@ public class Book {
         this.authors = authors;
     }
 
+    @Column(name = "number_of_pages")
     public int getNumberOfPages() {
         return numberOfPages;
     }
@@ -74,6 +93,7 @@ public class Book {
         this.numberOfPages = numberOfPages;
     }
 
+    @Column(name = "publisher")
     public String getPublisher() {
         return publisher;
     }
@@ -82,6 +102,7 @@ public class Book {
         this.publisher = publisher;
     }
 
+    @Column(name = "country")
     public String getCountry() {
         return country;
     }
@@ -90,6 +111,7 @@ public class Book {
         this.country = country;
     }
 
+    @Column(name = "media_type")
     public String getMediaType() {
         return mediaType;
     }
@@ -98,6 +120,7 @@ public class Book {
         this.mediaType = mediaType;
     }
 
+    @Column(name = "released")
     public Date getReleased() {
         return released;
     }
@@ -106,6 +129,8 @@ public class Book {
         this.released = released;
     }
 
+    @Column(name = "characters")
+    @ElementCollection(targetClass = String.class)
     public List<String> getCharacters() {
         return characters;
     }
@@ -114,6 +139,8 @@ public class Book {
         this.characters = characters;
     }
 
+    @Column(name = "pov_characters")
+    @ElementCollection(targetClass = String.class)
     public List<String> getPovCharecters() {
         return povCharecters;
     }

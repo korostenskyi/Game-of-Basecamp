@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -27,6 +28,14 @@ public class MainController {
         this.mainService = mainService;
 
         logger = LoggerFactory.getLogger(MainController.class);
+    }
+
+    @PostMapping(value = "/add/{id}", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<MessageResponse> postCharacter(@PathVariable Long id) {
+
+        logger.info("Posting user with id of " + id + " into the database");
+
+        return ResponseEntity.ok().body(mainService.postCharacter(id));
     }
 
     @GetMapping(value = "/", produces = APPLICATION_JSON_VALUE)

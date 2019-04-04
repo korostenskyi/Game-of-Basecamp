@@ -7,6 +7,8 @@ import com.korostenskyi.app.wire.MessageResponse;
 
 public interface MainService {
 
+    MessageResponse postCharacter(Long id);
+
     MessageResponse greetUser();
 
     MessageResponse fight(Long uuid);
