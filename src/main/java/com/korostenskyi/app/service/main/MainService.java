@@ -13,6 +13,8 @@ public interface MainService {
 
     MessageResponse fight(Long uuid);
 
+    MessageResponse postRandomCharacter();
+
     void stopExecutor();
 
     Book getBookById(Long id);

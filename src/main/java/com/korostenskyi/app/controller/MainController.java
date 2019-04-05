@@ -38,6 +38,14 @@ public class MainController {
         return ResponseEntity.ok().body(mainService.postCharacter(id));
     }
 
+    @PostMapping(value = "/", produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<MessageResponse> postRandomCharacter() {
+
+        logger.info("Posting random character to the database");
+
+        return ResponseEntity.ok().body(mainService.postRandomCharacter());
+    }
+
     @GetMapping(value = "/", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<MessageResponse> greetUser() {
 

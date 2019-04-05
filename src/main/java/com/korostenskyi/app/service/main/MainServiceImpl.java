@@ -1,13 +1,14 @@
 package com.korostenskyi.app.service.main;
 
 import com.korostenskyi.app.data.entity.Book;
+import com.korostenskyi.app.data.entity.Character;
 import com.korostenskyi.app.data.entity.House;
 import com.korostenskyi.app.data.repository.BookRepository;
 import com.korostenskyi.app.data.repository.CharacterRepository;
 import com.korostenskyi.app.data.repository.HouseRepository;
 import com.korostenskyi.app.service.concurrent.ConcurrentTaskService;
+import com.korostenskyi.app.service.generator.NumberGenerator;
 import com.korostenskyi.app.wire.MessageResponse;
-import com.korostenskyi.app.data.entity.Character;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.util.concurrent.ExecutionException;
 public class MainServiceImpl implements MainService {
 
     private final ConcurrentTaskService taskService;
+    private NumberGenerator numberGenerator;
 
     private BookRepository bookRepository;
     private CharacterRepository characterRepository;
@@ -34,6 +36,10 @@ public class MainServiceImpl implements MainService {
         logger = LoggerFactory.getLogger(MainServiceImpl.class);
     }
 
+    @Autowired
+    public void setNumberGenerator(NumberGenerator numberGenerator) {
+        this.numberGenerator = numberGenerator;
+    }
 
     @Autowired
     public void setBookRepository(BookRepository bookRepository) {
@@ -63,6 +69,21 @@ public class MainServiceImpl implements MainService {
     @Override
     public MessageResponse fight(Long id) {
         return new MessageResponse(HttpStatus.OK, "МАХАЧ");
+    }
+
+    @Override
+    public MessageResponse postRandomCharacter() {
+        numberGenerator.generateNumber();
+
+        Long generatedLong = numberGenerator.getGeneratedNumber();
+
+        logger.info(String.valueOf(generatedLong));
+
+        Character character = getCharacterById(generatedLong);
+
+        logger.info(character.getName() + " " + character.getId());
+
+        return new MessageResponse(HttpStatus.OK, String.valueOf(character.getId()));
     }
 
     @Override
