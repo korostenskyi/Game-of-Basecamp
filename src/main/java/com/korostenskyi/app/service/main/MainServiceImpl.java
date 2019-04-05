@@ -6,6 +6,7 @@ import com.korostenskyi.app.data.entity.House;
 import com.korostenskyi.app.data.repository.BookRepository;
 import com.korostenskyi.app.data.repository.CharacterRepository;
 import com.korostenskyi.app.data.repository.HouseRepository;
+import com.korostenskyi.app.exception.BaseException;
 import com.korostenskyi.app.exception.NoSuchElementException;
 import com.korostenskyi.app.service.concurrent.ConcurrentTaskService;
 import com.korostenskyi.app.service.generator.NumberGenerator;
@@ -17,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -61,18 +60,12 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public AllCharactersResponse fetchAllCharactersFromDatabase() {
-
-        List<Character> characterList = new ArrayList();
-
+    public AllCharactersResponse fetchAllCharactersFromDatabase(int page, int pageSize) {
         try {
-            Iterable<Character> characters = taskService.fetchAllCharactersFromDatabase().get();
-            characters.forEach(characterList::add);
+            return new AllCharactersResponse(HttpStatus.OK, taskService.fetchAllCharactersFromDatabase(page, pageSize).get());
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            throw new BaseException("FGHJKL");
         }
-
-        return new AllCharactersResponse(HttpStatus.OK, characterList);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.korostenskyi.app.data.entity.Book;
 import com.korostenskyi.app.data.entity.Character;
 import com.korostenskyi.app.data.entity.House;
 
+import java.util.List;
 import java.util.concurrent.Future;
 
 public interface ConcurrentTaskService {
@@ -18,5 +19,5 @@ public interface ConcurrentTaskService {
 
     Future<Character> fetchCharacterByIdFromDatabase(Long id);
 
-    Future<Iterable<Character>> fetchAllCharactersFromDatabase();
+    Future<List<Character>> fetchAllCharactersFromDatabase(int page, int pageSize);
 }

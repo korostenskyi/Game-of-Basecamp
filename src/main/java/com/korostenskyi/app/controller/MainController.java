@@ -10,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -40,11 +37,11 @@ public class MainController {
     }
 
     @GetMapping(value = "/", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<AllCharactersResponse> fetchAllCharactersFromDatabase() {
+    public ResponseEntity<AllCharactersResponse> fetchAllCharactersFromDatabase(@RequestParam int page, @RequestParam int pageSize) {
 
         logger.info("Fetching all characters from database...");
 
-        return ResponseEntity.ok().body(mainService.fetchAllCharactersFromDatabase());
+        return ResponseEntity.ok().body(mainService.fetchAllCharactersFromDatabase(page, pageSize));
     }
 
     @GetMapping(value = "/{UUID}", produces = APPLICATION_JSON_VALUE)

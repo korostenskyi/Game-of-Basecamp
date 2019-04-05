@@ -8,10 +8,11 @@ import com.korostenskyi.app.data.repository.CharacterRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.*;
 
 @Service
@@ -93,9 +94,11 @@ public class ConcurrentTaskServiceImpl implements ConcurrentTaskService {
     }
 
     @Override
-    public Future<Iterable<Character>> fetchAllCharactersFromDatabase() {
+    public Future<List<Character>> fetchAllCharactersFromDatabase(int page, int pageSize) {
 
-        Callable<Iterable<Character>> task = () -> characterRepository.findAll();
+        Pageable pageable = PageRequest.of(page, pageSize);
+
+        Callable<List<Character>> task = () -> characterRepository.findAll(pageable).getContent();
 
         return executorService.submit(task);
     }
