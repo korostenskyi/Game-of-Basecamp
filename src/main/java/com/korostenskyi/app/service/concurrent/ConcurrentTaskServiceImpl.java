@@ -4,11 +4,14 @@ import com.korostenskyi.app.data.entity.Book;
 import com.korostenskyi.app.data.entity.Character;
 import com.korostenskyi.app.data.entity.House;
 import com.korostenskyi.app.data.network.NetworkDataSource;
+import com.korostenskyi.app.data.repository.CharacterRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.*;
 
 @Service
@@ -16,6 +19,7 @@ public class ConcurrentTaskServiceImpl implements ConcurrentTaskService {
 
     private final int THREAD_COUNT = 5;
     private final NetworkDataSource networkDataSource;
+    private CharacterRepository characterRepository;
 
     private Logger logger;
     private ExecutorService executorService;
@@ -26,6 +30,11 @@ public class ConcurrentTaskServiceImpl implements ConcurrentTaskService {
 
         logger = LoggerFactory.getLogger(ConcurrentTaskServiceImpl.class);
         executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+    }
+
+    @Autowired
+    public void setCharacterRepository(CharacterRepository characterRepository) {
+        this.characterRepository = characterRepository;
     }
 
     @Override
@@ -71,6 +80,22 @@ public class ConcurrentTaskServiceImpl implements ConcurrentTaskService {
     public Future<House> getHouseById(Long id) {
 
         Callable<House> task = () -> networkDataSource.getHouseById(id);
+
+        return executorService.submit(task);
+    }
+
+    @Override
+    public Future<Character> fetchCharacterByIdFromDatabase(Long id) {
+
+        Callable<Character> task = () -> characterRepository.findById(id).orElse(null);
+
+        return executorService.submit(task);
+    }
+
+    @Override
+    public Future<Iterable<Character>> fetchAllCharactersFromDatabase() {
+
+        Callable<Iterable<Character>> task = () -> characterRepository.findAll();
 
         return executorService.submit(task);
     }

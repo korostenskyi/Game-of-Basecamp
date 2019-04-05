@@ -1,4 +1,4 @@
-package com.korostenskyi.app.wire;
+package com.korostenskyi.app.wire.response;
 
 import org.springframework.http.HttpStatus;
 

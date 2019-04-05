@@ -1,7 +1,7 @@
 package com.korostenskyi.app.controller;
 
 import com.korostenskyi.app.exception.NoSuchElementException;
-import com.korostenskyi.app.wire.MessageResponse;
+import com.korostenskyi.app.wire.response.MessageResponse;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

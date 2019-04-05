@@ -6,15 +6,19 @@ import com.korostenskyi.app.data.entity.House;
 import com.korostenskyi.app.data.repository.BookRepository;
 import com.korostenskyi.app.data.repository.CharacterRepository;
 import com.korostenskyi.app.data.repository.HouseRepository;
+import com.korostenskyi.app.exception.NoSuchElementException;
 import com.korostenskyi.app.service.concurrent.ConcurrentTaskService;
 import com.korostenskyi.app.service.generator.NumberGenerator;
-import com.korostenskyi.app.wire.MessageResponse;
+import com.korostenskyi.app.wire.response.AllCharactersResponse;
+import com.korostenskyi.app.wire.response.MessageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -57,18 +61,27 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public MessageResponse postCharacter(Long id) {
-        return new MessageResponse(HttpStatus.OK, "Posted user with id of" + id);
-    }
+    public AllCharactersResponse fetchAllCharactersFromDatabase() {
 
-    @Override
-    public MessageResponse greetUser() {
-        return new MessageResponse(HttpStatus.OK, "Hello!");
+        List<Character> characterList = new ArrayList();
+
+        try {
+            Iterable<Character> characters = taskService.fetchAllCharactersFromDatabase().get();
+            characters.forEach(characterList::add);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return new AllCharactersResponse(HttpStatus.OK, characterList);
     }
 
     @Override
     public MessageResponse fight(Long id) {
-        return new MessageResponse(HttpStatus.OK, "МАХАЧ");
+        try {
+            return new MessageResponse(HttpStatus.OK, taskService.fetchCharacterByIdFromDatabase(id).get().getName());
+        } catch (InterruptedException | ExecutionException | NullPointerException e) {
+            throw new NoSuchElementException("There is no such character in database!");
+        }
     }
 
     @Override

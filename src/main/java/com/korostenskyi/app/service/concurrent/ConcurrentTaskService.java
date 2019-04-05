@@ -15,4 +15,8 @@ public interface ConcurrentTaskService {
     Future<Character> getCharacterById(Long id);
 
     Future<House> getHouseById(Long id);
+
+    Future<Character> fetchCharacterByIdFromDatabase(Long id);
+
+    Future<Iterable<Character>> fetchAllCharactersFromDatabase();
 }

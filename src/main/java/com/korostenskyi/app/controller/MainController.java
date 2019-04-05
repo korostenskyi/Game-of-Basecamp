@@ -4,7 +4,8 @@ import com.korostenskyi.app.data.entity.Book;
 import com.korostenskyi.app.data.entity.Character;
 import com.korostenskyi.app.data.entity.House;
 import com.korostenskyi.app.service.main.MainService;
-import com.korostenskyi.app.wire.MessageResponse;
+import com.korostenskyi.app.wire.response.AllCharactersResponse;
+import com.korostenskyi.app.wire.response.MessageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,6 @@ public class MainController {
         logger = LoggerFactory.getLogger(MainController.class);
     }
 
-    @PostMapping(value = "/add/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<MessageResponse> postCharacter(@PathVariable Long id) {
-
-        logger.info("Posting user with id of " + id + " into the database");
-
-        return ResponseEntity.ok().body(mainService.postCharacter(id));
-    }
-
     @PostMapping(value = "/", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<MessageResponse> postRandomCharacter() {
 
@@ -47,17 +40,17 @@ public class MainController {
     }
 
     @GetMapping(value = "/", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<MessageResponse> greetUser() {
+    public ResponseEntity<AllCharactersResponse> fetchAllCharactersFromDatabase() {
 
-        logger.info("Greet user");
+        logger.info("Fetching all characters from database...");
 
-        return ResponseEntity.ok().body(mainService.greetUser());
+        return ResponseEntity.ok().body(mainService.fetchAllCharactersFromDatabase());
     }
 
     @GetMapping(value = "/{UUID}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<MessageResponse> fight(@PathVariable Long UUID) {
 
-        logger.info("Махач");
+        logger.info("Fetching character from local database");
 
         return ResponseEntity.ok().body(mainService.fight(UUID));
     }
