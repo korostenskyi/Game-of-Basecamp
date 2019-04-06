@@ -6,7 +6,6 @@ import com.korostenskyi.app.data.entity.House;
 import com.korostenskyi.app.data.repository.BookRepository;
 import com.korostenskyi.app.data.repository.CharacterRepository;
 import com.korostenskyi.app.data.repository.HouseRepository;
-import com.korostenskyi.app.exception.BaseException;
 import com.korostenskyi.app.exception.NoConnectionException;
 import com.korostenskyi.app.exception.NoSuchElementException;
 import com.korostenskyi.app.service.concurrent.ConcurrentTaskService;
@@ -70,10 +69,21 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public MessageResponse fight(Long id) {
+    public MessageResponse fight(Long characterId1, Long characterId2) {
+
+        byte generatedId = numberGenerator.generateWinner();
+
         try {
-            return new MessageResponse(HttpStatus.OK, taskService.fetchCharacterByIdFromDatabase(id).get().getName());
-        } catch (InterruptedException | ExecutionException | NullPointerException e) {
+            Character character1 = taskService.fetchCharacterByIdFromDatabase(characterId1).get();
+            Character character2 = taskService.fetchCharacterByIdFromDatabase(characterId2).get();
+
+            if (generatedId == 1) {
+                return new MessageResponse(HttpStatus.OK, character1.getName());
+            } else {
+                return new MessageResponse(HttpStatus.OK, character2.getName());
+            }
+
+        } catch (InterruptedException | ExecutionException e) {
             throw new NoSuchElementException("There is no such character in database!");
         }
     }

@@ -48,4 +48,9 @@ public class NumberGeneratorImpl implements NumberGenerator {
 
         setGeneratedNumber(generatedNumber);
     }
+
+    @Override
+    public byte generateWinner() {
+        return (byte) (Math.random() * 2 + 1);
+    }
 }

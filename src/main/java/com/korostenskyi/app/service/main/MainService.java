@@ -10,7 +10,7 @@ public interface MainService {
 
     AllCharactersResponse fetchAllCharactersFromDatabase(Integer page, Integer pageSize);
 
-    MessageResponse fight(Long uuid);
+    MessageResponse fight(Long characterId1, Long characterId2);
 
     MessageResponse postRandomCharacter();
 

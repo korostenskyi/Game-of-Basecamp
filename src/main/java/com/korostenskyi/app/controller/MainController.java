@@ -51,11 +51,11 @@ public class MainController {
     }
 
     @GetMapping(value = "/{UUID}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<MessageResponse> fight(@PathVariable Long UUID) {
+    public ResponseEntity<MessageResponse> fight(@PathVariable Long UUID, @RequestParam(value = "enemy") Long UUID2) {
 
         logger.info("Fetching character from local database");
 
-        return ResponseEntity.ok().body(mainService.fight(UUID));
+        return ResponseEntity.ok().body(mainService.fight(UUID, UUID2));
     }
 
     @GetMapping(value = "/book/{id}", produces = APPLICATION_JSON_VALUE)
