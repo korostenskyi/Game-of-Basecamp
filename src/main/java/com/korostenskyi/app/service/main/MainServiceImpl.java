@@ -7,6 +7,7 @@ import com.korostenskyi.app.data.repository.BookRepository;
 import com.korostenskyi.app.data.repository.CharacterRepository;
 import com.korostenskyi.app.data.repository.HouseRepository;
 import com.korostenskyi.app.exception.BaseException;
+import com.korostenskyi.app.exception.NoConnectionException;
 import com.korostenskyi.app.exception.NoSuchElementException;
 import com.korostenskyi.app.service.concurrent.ConcurrentTaskService;
 import com.korostenskyi.app.service.generator.NumberGenerator;
@@ -64,7 +65,7 @@ public class MainServiceImpl implements MainService {
         try {
             return new AllCharactersResponse(HttpStatus.OK, taskService.fetchAllCharactersFromDatabase(page, pageSize).get());
         } catch (InterruptedException | ExecutionException e) {
-            throw new BaseException("FGHJKL");
+            throw new NoConnectionException("Some connection troubles!");
         }
     }
 
