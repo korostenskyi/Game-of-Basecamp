@@ -94,7 +94,7 @@ public class ConcurrentTaskServiceImpl implements ConcurrentTaskService {
     }
 
     @Override
-    public Future<List<Character>> fetchAllCharactersFromDatabase(int page, int pageSize) {
+    public Future<List<Character>> fetchAllCharactersFromDatabase(Integer page, Integer pageSize) {
 
         Pageable pageable = PageRequest.of(page, pageSize);
 

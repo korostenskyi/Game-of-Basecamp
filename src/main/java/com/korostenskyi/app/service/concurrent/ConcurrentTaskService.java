@@ -19,5 +19,5 @@ public interface ConcurrentTaskService {
 
     Future<Character> fetchCharacterByIdFromDatabase(Long id);
 
-    Future<List<Character>> fetchAllCharactersFromDatabase(int page, int pageSize);
+    Future<List<Character>> fetchAllCharactersFromDatabase(Integer page, Integer pageSize);
 }

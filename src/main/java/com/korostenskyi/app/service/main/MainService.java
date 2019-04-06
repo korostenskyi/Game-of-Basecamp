@@ -8,7 +8,7 @@ import com.korostenskyi.app.wire.response.MessageResponse;
 
 public interface MainService {
 
-    AllCharactersResponse fetchAllCharactersFromDatabase(int page, int pageSize);
+    AllCharactersResponse fetchAllCharactersFromDatabase(Integer page, Integer pageSize);
 
     MessageResponse fight(Long uuid);
 

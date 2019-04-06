@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -37,11 +39,15 @@ public class MainController {
     }
 
     @GetMapping(value = "/", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<AllCharactersResponse> fetchAllCharactersFromDatabase(@RequestParam int page, @RequestParam int pageSize) {
+    public ResponseEntity<AllCharactersResponse> fetchAllCharactersFromDatabase(@RequestParam Integer page, @RequestParam(value = "pageSize", required = false) Optional<Integer> pageSize) {
 
         logger.info("Fetching all characters from database...");
 
-        return ResponseEntity.ok().body(mainService.fetchAllCharactersFromDatabase(page, pageSize));
+        if (pageSize.isEmpty()) {
+            return ResponseEntity.ok().body(mainService.fetchAllCharactersFromDatabase(page, 5));
+        } else {
+            return ResponseEntity.ok().body(mainService.fetchAllCharactersFromDatabase(page, pageSize.get()));
+        }
     }
 
     @GetMapping(value = "/{UUID}", produces = APPLICATION_JSON_VALUE)

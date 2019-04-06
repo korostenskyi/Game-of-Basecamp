@@ -60,7 +60,7 @@ public class MainServiceImpl implements MainService {
     }
 
     @Override
-    public AllCharactersResponse fetchAllCharactersFromDatabase(int page, int pageSize) {
+    public AllCharactersResponse fetchAllCharactersFromDatabase(Integer page, Integer pageSize) {
         try {
             return new AllCharactersResponse(HttpStatus.OK, taskService.fetchAllCharactersFromDatabase(page, pageSize).get());
         } catch (InterruptedException | ExecutionException e) {
