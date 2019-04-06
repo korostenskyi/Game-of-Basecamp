@@ -1,5 +1,6 @@
 package com.korostenskyi.app.controller;
 
+import com.korostenskyi.app.exception.NoConnectionException;
 import com.korostenskyi.app.exception.NoSuchElementException;
 import com.korostenskyi.app.wire.response.MessageResponse;
 import org.hibernate.exception.ConstraintViolationException;
@@ -23,5 +24,12 @@ public class ExceptionController {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new MessageResponse(HttpStatus.NOT_FOUND, e.getMessage()));
+    }
+
+    @ExceptionHandler(NoConnectionException.class)
+    public ResponseEntity<MessageResponse> connectionProblem(NoConnectionException e) {
+        return ResponseEntity
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(new MessageResponse(HttpStatus.SERVICE_UNAVAILABLE, e.getMessage()));
     }
 }
