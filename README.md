@@ -17,10 +17,19 @@ GlobalLogic JavaBaseCamp Lviv 2019 final project. Build by using Spring Boot.
 
 Used tools
 
-
 - [OpenJDK](https://jdk.java.net/11/) - Java 11
 
 - [Maven](https://maven.apache.org/) - Dependency managment and build
+
+Used libs
+
+- [Spring Boot Starter](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web/2.0.5.RELEASE)
+- [Spring ORM](https://mvnrepository.com/artifact/org.springframework/spring-orm/5.0.9.RELEASE)
+- [Spring Data JPA](https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa/2.0.10.RELEASE)
+- [Hibernate Entity Manager](https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager/5.2.11.Final)
+- [H2](https://mvnrepository.com/artifact/com.h2database/h2/1.3.148)
+- [Java Persistence](https://mvnrepository.com/artifact/javax.persistence/persistence-api/1.0.2)
+- [Javassist](https://mvnrepository.com/artifact/org.javassist/javassist/3.13.0-GA)
 
 ### Installation Guide
 
