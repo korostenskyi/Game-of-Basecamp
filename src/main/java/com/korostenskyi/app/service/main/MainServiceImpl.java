@@ -10,6 +10,7 @@ import com.korostenskyi.app.exception.NoConnectionException;
 import com.korostenskyi.app.exception.NoSuchElementException;
 import com.korostenskyi.app.service.concurrent.ConcurrentTaskService;
 import com.korostenskyi.app.service.generator.NumberGenerator;
+import com.korostenskyi.app.util.UrlParser;
 import com.korostenskyi.app.wire.response.AllCharactersResponse;
 import com.korostenskyi.app.wire.response.MessageResponse;
 import org.slf4j.Logger;
@@ -71,16 +72,46 @@ public class MainServiceImpl implements MainService {
     @Override
     public MessageResponse fight(Long characterId1, Long characterId2) {
 
+        Character character1;
+        Character character2;
+
+        House placeToFight;
+
+        Long character1HouseId = -1L;
+        Long character2HouseId = -1L;
+
+        Long placeToFightId;
+
         byte generatedId = numberGenerator.generateWinner();
 
         try {
-            Character character1 = taskService.fetchCharacterByIdFromDatabase(characterId1).get();
-            Character character2 = taskService.fetchCharacterByIdFromDatabase(characterId2).get();
+            character1 = taskService.fetchCharacterByIdFromDatabase(characterId1).get();
+            character2 = taskService.fetchCharacterByIdFromDatabase(characterId2).get();
 
-            if (generatedId == 1) {
-                return new MessageResponse(HttpStatus.OK, character1.getName());
-            } else {
-                return new MessageResponse(HttpStatus.OK, character2.getName());
+            placeToFight = getRandomHouseCastle();
+
+            if (!character1.getAliases().isEmpty()) {
+                character1HouseId = UrlParser.getEntityId(character1.getAllegiances().get(0));
+            }
+
+            if (!character2.getAliases().isEmpty()) {
+                character2HouseId = UrlParser.getEntityId(character2.getAllegiances().get(0));
+            }
+
+            while (true) {
+
+                placeToFightId = UrlParser.getEntityId(placeToFight.getUrl());
+
+                if (!placeToFightId.equals(character1HouseId) && !placeToFightId.equals(character2HouseId)) {
+
+                    if (generatedId == 1) {
+                        return new MessageResponse(HttpStatus.OK, character1.getName());
+                    } else {
+                        return new MessageResponse(HttpStatus.OK, character2.getName());
+                    }
+                } else {
+                    placeToFight = getRandomHouseCastle();
+                }
             }
 
         } catch (InterruptedException | ExecutionException e) {
@@ -90,6 +121,7 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public MessageResponse postRandomCharacter() {
+
         numberGenerator.generateNumber();
 
         Long generatedLong = numberGenerator.getGeneratedNumber();
@@ -98,9 +130,23 @@ public class MainServiceImpl implements MainService {
 
         Character character = getCharacterById(generatedLong);
 
+        if (!character.getDied().equals("")) {
+            postRandomCharacter();
+        }
+
         logger.info(character.getName() + " " + character.getId());
 
         return new MessageResponse(HttpStatus.OK, String.valueOf(character.getId()));
+    }
+
+    @Override
+    public House getRandomHouseCastle() {
+
+        int generatedLong = numberGenerator.generateRandomHouse();
+
+        logger.info(String.valueOf(generatedLong));
+
+        return getHouseById((long) generatedLong);
     }
 
     @Override

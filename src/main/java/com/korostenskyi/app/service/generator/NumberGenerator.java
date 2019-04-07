@@ -4,5 +4,6 @@ public interface NumberGenerator {
 
     void generateNumber();
     byte generateWinner();
+    int generateRandomHouse();
     Long getGeneratedNumber();
 }

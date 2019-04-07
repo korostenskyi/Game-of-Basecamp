@@ -20,5 +20,7 @@ public interface MainService {
 
     House getHouseById(Long id);
 
+    House getRandomHouseCastle();
+
     void stopExecutor();
 }

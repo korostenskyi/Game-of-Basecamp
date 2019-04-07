@@ -53,4 +53,9 @@ public class NumberGeneratorImpl implements NumberGenerator {
     public byte generateWinner() {
         return (byte) (Math.random() * 2 + 1);
     }
+
+    @Override
+    public int generateRandomHouse() {
+        return (int) (Math.random() * 450 + 1);
+    }
 }
