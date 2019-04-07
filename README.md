@@ -1,6 +1,6 @@
 # Game of Basecamp
 
-GlobalLogic JavaBaseCamp Lviv 2019 final project.
+GlobalLogic JavaBaseCamp Lviv 2019 final project. Build by using Spring Boot.
 
 ## Features💡
 
@@ -15,14 +15,14 @@ GlobalLogic JavaBaseCamp Lviv 2019 final project.
 
 ### Prerequisites
 
-What things do you need to install
+Used tools
 
-```
-Java SDK 11
-Maven 3.6.0+
-```
 
-### Installation
+- [OpenJDK](https://jdk.java.net/11/) - Java 11
+
+- [Maven](https://maven.apache.org/) - Dependency managment and build
+
+### Installation Guide
 
 - Clone Git repository
 ```
@@ -55,6 +55,11 @@ The following methods (for example, ```fight``` etc.) need several characters, s
 ```
 $ curl "http://localhost:8080/?page=<Page Number>"
 ```
+
+**NOTE!**
+
+Numeration of pages starts from 0.
+
 
 You can specify the amount of objects, got in JSON via specifying this number as optional request param ```pageSize```.
 
