@@ -69,6 +69,12 @@ public class MainServiceImpl implements MainService {
         }
     }
 
+    private String getWinnerMessage(String winnerName, Long winnerId, String winnerHome, String looserString, Long looserId, String looserHome, String battlePlaceName, Long battlePlaceId) {
+        return String.format(
+                "%s (id: %d) from %s was fighting against %s (id: %d) from %s on the place of %s (id: %d) and was a winner",
+                winnerName, winnerId, winnerHome, looserString, looserId, looserHome, battlePlaceName, battlePlaceId);
+    }
+
     @Override
     public MessageResponse fight(Long characterId1, Long characterId2) {
 
@@ -77,6 +83,9 @@ public class MainServiceImpl implements MainService {
 
         House placeToFight;
 
+        String character1HouseName = "Unknown house";
+        String character2HouseName = "Unknown house";
+
         Long character1HouseId = -1L;
         Long character2HouseId = -1L;
 
@@ -84,18 +93,22 @@ public class MainServiceImpl implements MainService {
 
         byte generatedId = numberGenerator.generateWinner();
 
+        String winnerMessage;
+
         try {
             character1 = taskService.fetchCharacterByIdFromDatabase(characterId1).get();
             character2 = taskService.fetchCharacterByIdFromDatabase(characterId2).get();
 
             placeToFight = getRandomHouseCastle();
 
-            if (!character1.getAliases().isEmpty()) {
+            if (!character1.getAllegiances().isEmpty()) {
                 character1HouseId = UrlParser.getEntityId(character1.getAllegiances().get(0));
+                character1HouseName = getHouseById(character1HouseId).getName();
             }
 
-            if (!character2.getAliases().isEmpty()) {
+            if (!character2.getAllegiances().isEmpty()) {
                 character2HouseId = UrlParser.getEntityId(character2.getAllegiances().get(0));
+                character2HouseName = getHouseById(character2HouseId).getName();
             }
 
             while (true) {
@@ -105,9 +118,33 @@ public class MainServiceImpl implements MainService {
                 if (!placeToFightId.equals(character1HouseId) && !placeToFightId.equals(character2HouseId)) {
 
                     if (generatedId == 1) {
-                        return new MessageResponse(HttpStatus.OK, character1.getName());
+
+                        winnerMessage = getWinnerMessage(
+                                character1.getName(),
+                                character1.getId(),
+                                character1HouseName,
+                                character2.getName(),
+                                character2.getId(),
+                                character2HouseName,
+                                placeToFight.getName(),
+                                placeToFightId
+                        );
+
+                        return new MessageResponse(HttpStatus.OK, winnerMessage);
                     } else {
-                        return new MessageResponse(HttpStatus.OK, character2.getName());
+
+                        winnerMessage = getWinnerMessage(
+                                character2.getName(),
+                                character2.getId(),
+                                character2HouseName,
+                                character1.getName(),
+                                character1.getId(),
+                                character1HouseName,
+                                placeToFight.getName(),
+                                placeToFightId
+                        );
+
+                        return new MessageResponse(HttpStatus.OK, winnerMessage);
                     }
                 } else {
                     placeToFight = getRandomHouseCastle();
